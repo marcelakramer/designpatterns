@@ -9,12 +9,17 @@ public class BinarySearchTree<T extends Comparable<T>> implements Prototype {
 		this.root = new Node<>(value);
 	}
 
-	public T getRoot() {
-		return root != null ? root.value : null;
+	public BinarySearchTree(BinarySearchTree binarySearchTree) {
+		this.root =  binarySearchTree.root != null ? binarySearchTree.root.clone() : null;
 	}
 
-	public void setRoot(Node<T> node) {
-		this.root = node;
+	@Override
+	public BinarySearchTree<T> clone() {
+		return new BinarySearchTree<T>(this);
+	}
+
+	public T getRoot() {
+		return root != null ? root.value : null;
 	}
 
 	public boolean isEmpty() {
@@ -143,13 +148,5 @@ public class BinarySearchTree<T extends Comparable<T>> implements Prototype {
 		postorder(root.left);
 		postorder(root.right);
 		System.out.print(" " + root.value);
-	}
-
-	@Override
-	public BinarySearchTree<T> clone() {
-		Node<T> clonedRoot = (this.root != null) ? this.root.clone() : null;
-		BinarySearchTree clonedTree = new BinarySearchTree(clonedRoot.value);
-		clonedTree.setRoot(clonedRoot);
-		return clonedTree;
 	}
 }
