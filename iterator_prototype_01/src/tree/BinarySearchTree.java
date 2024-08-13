@@ -1,16 +1,23 @@
 package tree;
 
+import enums.TraversalType;
+import factory.BinarySearchTreeIteratorFactory;
+import interfaces.IterableBinarySearchTree;
+import interfaces.Iterator;
 import interfaces.Prototype;
 
-public class BinarySearchTree<T extends Comparable<T>> implements Prototype {
+public class BinarySearchTree<T extends Comparable<T>> implements IterableBinarySearchTree, Prototype {
 	private Node<T> root;
+	private BinarySearchTreeIteratorFactory iteratorFactory;
 
 	public BinarySearchTree(T value) {
 		this.root = new Node<>(value);
+		this.iteratorFactory = new BinarySearchTreeIteratorFactory();
 	}
 
 	public BinarySearchTree(BinarySearchTree binarySearchTree) {
 		this.root =  binarySearchTree.root != null ? binarySearchTree.root.clone() : null;
+		this.iteratorFactory = binarySearchTree.iteratorFactory;
 	}
 
 	@Override
@@ -100,53 +107,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Prototype {
 		return 1 + size(root.left) + size(root.right);
 	}
 
-	public void preorder()
-	{
-		System.out.print("Pre-order Traversal:");
-		preorder(root);
-		System.out.println();
-	}
-
-	private void preorder(Node<T> root)
-	{
-		if (root == null)
-			return;
-
-		System.out.print(" " + root.value);
-		preorder(root.left);
-		preorder(root.right);
-	}
-
-	public void inorder()
-	{
-		System.out.print("In-order Traversal:");
-		inorder(root);
-		System.out.println();
-	}
-
-	private void inorder(Node<T> root)
-	{
-		if (root == null)
-			return;
-
-		inorder(root.left);
-		System.out.print(" " + root.value);
-		inorder(root.right);
-	}
-
-	public void postorder()
-	{
-		System.out.print("Post-order Traversal:");
-		postorder(root);
-		System.out.println();
-	}
-	private void postorder(Node<T> root)
-	{
-		if (root == null)
-			return;
-
-		postorder(root.left);
-		postorder(root.right);
-		System.out.print(" " + root.value);
+	public Iterator createIterator(TraversalType traversalType) {
+		return this.iteratorFactory.createIterator(traversalType, this.root);
 	}
 }

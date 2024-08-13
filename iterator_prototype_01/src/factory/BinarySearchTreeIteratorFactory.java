@@ -1,11 +1,11 @@
 package factory;
 
 import enums.TraversalType;
-import interfaces.Iterator;
+import interfaces.*;
 import iterator.*;
 import tree.Node;
 
-public class IteratorFactory {
+public class BinarySearchTreeIteratorFactory implements IteratorFactory {
 
     public Iterator createIterator(TraversalType traversalType, Node node) {
         return switch (traversalType) {

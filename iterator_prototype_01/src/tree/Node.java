@@ -23,7 +23,7 @@ public class Node<T extends Comparable<T>> implements Prototype {
     public Node<T> clone() {
         return new Node<T>(this);
     }
-
+    
     public String toString() {
     	return value.toString();
     }
