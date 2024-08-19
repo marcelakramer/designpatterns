@@ -6,10 +6,10 @@ import tree.Node;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
-public class PreOrderIterator implements Iterator {
-    private Stack<Node> stack;
+public class PreOrderIterator<T extends Comparable<T>> implements Iterator<T> {
+    private final Stack<Node<T>> stack;
 
-    public PreOrderIterator(Node root) {
+    public PreOrderIterator(Node<T> root) {
         this.stack = new Stack<>();
         this.stack.push(root);
     }
@@ -20,12 +20,12 @@ public class PreOrderIterator implements Iterator {
     }
 
     @Override
-    public <T> T getNext() {
+    public T getNext() {
         if (!hasNext()) {
             throw new NoSuchElementException("No more nodes in the tree.");
         }
 
-        Node current = this.stack.pop();
+        Node<T> current = this.stack.pop();
 
         if (current.right != null) {
             this.stack.push(current.right);
@@ -35,6 +35,6 @@ public class PreOrderIterator implements Iterator {
             this.stack.push(current.left);
         }
 
-        return (T) current.value;
+        return current.value;
     }
 }

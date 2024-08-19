@@ -1,6 +1,6 @@
 package interfaces;
 
-public interface Iterator {
+public interface Iterator<T extends Comparable<T>> {
     boolean hasNext();
-    <T> T getNext();
+    T getNext();
 }

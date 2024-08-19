@@ -3,7 +3,7 @@ import enums.TraversalType;
 import tree.BinarySearchTree;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>(8);
 
         bst.add(3);
@@ -45,7 +45,7 @@ public class Main {
 
         System.out.println("\nPrototype Test: \n");
 
-        BinarySearchTree<Integer> cloneBst = bst.clone();
+        BinarySearchTree<Integer> cloneBst = (BinarySearchTree<Integer>) bst.clone();
         cloneBst.add(9);
         cloneBst.add(20);
         cloneBst.add(19);

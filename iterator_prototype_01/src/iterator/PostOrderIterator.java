@@ -6,11 +6,11 @@ import tree.Node;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
-public class PostOrderIterator implements Iterator {
-    private Stack<Node> stack;
-    private Node lastVisitedNode;
+public class PostOrderIterator<T extends Comparable<T>> implements Iterator<T> {
+    private final Stack<Node<T>> stack;
+    private Node<T> lastVisitedNode;
 
-    public PostOrderIterator(Node root) {
+    public PostOrderIterator(Node<T> root) {
         this.stack = new Stack<>();
         this.lastVisitedNode = null;
         this.pushLeftmostNodes(root);
@@ -22,17 +22,17 @@ public class PostOrderIterator implements Iterator {
     }
 
     @Override
-    public <T> T getNext() {
+    public T getNext() {
         if (!hasNext()) {
             throw new NoSuchElementException("No more nodes in the tree.");
         }
 
         while (hasNext()) {
-            Node current = stack.peek();
+            Node<T> current = stack.peek();
 
             if (current.right == null || current.right == lastVisitedNode) {
                 lastVisitedNode = stack.pop();
-                return (T) lastVisitedNode.value;
+                return lastVisitedNode.value;
             } else {
                 current = current.right;
                 pushLeftmostNodes(current);
@@ -42,7 +42,7 @@ public class PostOrderIterator implements Iterator {
         return null;
     }
 
-    private void pushLeftmostNodes(Node node) {
+    private void pushLeftmostNodes(Node<T> node) {
         while (node != null) {
             stack.push(node);
             node = node.left;

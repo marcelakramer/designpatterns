@@ -13,14 +13,14 @@ public class Node<T extends Comparable<T>> implements Prototype {
         this.left = null;
     }
 
-    Node(Node node) {
-        this.value = (T) node.value;
-        this.right = node.right != null ? node.right.clone() : null;
-        this.left = node.left != null ? node.left.clone() : null;
+    Node(Node<T> node) {
+        this.value = node.value;
+        this.right = node.right != null ? (Node<T>) node.right.clone() : null;
+        this.left = node.left != null ? (Node<T>) node.left.clone() : null;
     }
 
     @Override
-    public Node<T> clone() {
+    public Prototype clone() {
         return new Node<T>(this);
     }
     

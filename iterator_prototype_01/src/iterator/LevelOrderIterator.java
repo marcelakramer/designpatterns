@@ -7,10 +7,10 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
-public class LevelOrderIterator implements Iterator {
-    private Queue<Node> queue;
+public class LevelOrderIterator<T extends Comparable<T>> implements Iterator<T> {
+    private final Queue<Node<T>> queue;
 
-    public LevelOrderIterator(Node root) {
+    public LevelOrderIterator(Node<T> root) {
         this.queue = new LinkedList<>();
         if (root != null) {
             this.queue.add(root);
@@ -23,13 +23,13 @@ public class LevelOrderIterator implements Iterator {
     }
 
     @Override
-    public <T> T getNext() {
+    public T getNext() {
         while (this.hasNext()) {
             if (!hasNext()) {
                 throw new NoSuchElementException("No more nodes in the tree.");
             }
 
-            Node current = queue.poll();
+            Node<T> current = queue.poll();
 
             if (current.left != null) {
                 queue.add(current.left);
@@ -39,7 +39,7 @@ public class LevelOrderIterator implements Iterator {
                 queue.add(current.right);
             }
 
-            return (T) current.value;
+            return current.value;
         }
 
         return  null;

@@ -6,11 +6,11 @@ import tree.Node;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
-public class InOrderIterator implements Iterator {
-    private Stack<Node> stack;
-    private Node current;
+public class InOrderIterator<T extends Comparable<T>> implements Iterator<T> {
+    private final Stack<Node<T>> stack;
+    private Node<T> current;
 
-    public InOrderIterator(Node root) {
+    public InOrderIterator(Node<T> root) {
         this.stack = new Stack<>();
         this.current = root;
     }
@@ -21,7 +21,7 @@ public class InOrderIterator implements Iterator {
     }
 
     @Override
-    public <T> T getNext() {
+    public T getNext() {
         if (!hasNext()) {
             throw new NoSuchElementException("No more nodes in the tree.");
         }
@@ -32,7 +32,7 @@ public class InOrderIterator implements Iterator {
         }
 
         this.current = this.stack.pop();
-        T data = (T) this.current.value;
+        T data = this.current.value;
         this.current = this.current.right;
         return data;
 

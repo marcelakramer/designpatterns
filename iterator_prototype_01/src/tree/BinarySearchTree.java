@@ -6,22 +6,22 @@ import interfaces.IterableBinarySearchTree;
 import interfaces.Iterator;
 import interfaces.Prototype;
 
-public class BinarySearchTree<T extends Comparable<T>> implements IterableBinarySearchTree, Prototype {
+public class BinarySearchTree<T extends Comparable<T>> implements IterableBinarySearchTree<T>, Prototype {
 	private Node<T> root;
-	private BinarySearchTreeIteratorFactory iteratorFactory;
+	private final BinarySearchTreeIteratorFactory<T> iteratorFactory;
 
 	public BinarySearchTree(T value) {
-		this.root = new Node<>(value);
-		this.iteratorFactory = new BinarySearchTreeIteratorFactory();
+		this.root = new Node<T>(value);
+		this.iteratorFactory = new BinarySearchTreeIteratorFactory<T>();
 	}
 
-	public BinarySearchTree(BinarySearchTree binarySearchTree) {
-		this.root =  binarySearchTree.root != null ? binarySearchTree.root.clone() : null;
+	public BinarySearchTree(BinarySearchTree<T> binarySearchTree) {
+		this.root =  binarySearchTree.root != null ? (Node<T>) binarySearchTree.root.clone() : null;
 		this.iteratorFactory = binarySearchTree.iteratorFactory;
 	}
 
 	@Override
-	public BinarySearchTree<T> clone() {
+	public Prototype clone() {
 		return new BinarySearchTree<T>(this);
 	}
 
@@ -107,7 +107,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements IterableBinary
 		return 1 + size(root.left) + size(root.right);
 	}
 
-	public Iterator createIterator(TraversalType traversalType) {
+	public Iterator<T> createIterator(TraversalType traversalType) {
 		return this.iteratorFactory.createIterator(traversalType, this.root);
 	}
 }

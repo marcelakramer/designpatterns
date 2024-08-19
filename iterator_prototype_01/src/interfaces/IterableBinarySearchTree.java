@@ -2,6 +2,6 @@ package interfaces;
 
 import enums.TraversalType;
 
-public interface IterableBinarySearchTree {
-    Iterator createIterator(TraversalType traversalType);
+public interface IterableBinarySearchTree<T extends Comparable<T>> {
+    Iterator<T> createIterator(TraversalType traversalType);
 }
