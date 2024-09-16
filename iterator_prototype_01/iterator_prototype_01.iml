@@ -1,11 +1,112 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
-    <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-    </content>
-    <orderEntry type="inheritedJdk" />
-    <orderEntry type="sourceFolder" forTests="false" />
-  </component>
-</module>
+@startuml
+skinparam classAttributeIconSize 0
+
+class Carta {
+    - String face
+    - String[] naipe
+    - int valor
+    + setFace(String face)
+    + setNaipe(String[] naipe)
+    + setValor(int valor)
+    + toString() : String
+}
+
+class CartaPoker extends Carta {
+    + CartaPoker(String face, String[] naipe, int valor)
+}
+
+class CartaUno extends Carta {
+    + CartaUno(String face, String[] cor, int valor)
+}
+
+class Baralho {
+    - List<Carta> cartas
+    + Baralho()
+    + adicionarCarta(Carta carta)
+    + adicionarCartas(List<Carta> cartas)
+    + shuffle()
+    + toString() : String
+}
+
+class BaralhoPoker extends Baralho
+class BaralhoUno extends Baralho
+
+Baralho *-- Carta : "contém"
+
+interface CartaFactory {
+    + criarCarta(String face, String[] naipe, int valor) : Carta
+}
+
+CartaFactory <|.. UnoCartaFactory
+CartaFactory <|.. PokerCartaFactory
+
+class UnoCartaFactory {
+    + criarCarta(String tipo, String[] cor, int valor) : CartaUno
+}
+
+class PokerCartaFactory {
+    + criarCarta(String face, String[] naipe, int valor) : CartaPoker
+}
+
+CartaFactory o-- Carta : "cria"
+
+class BaralhoBuilder {
+    + reset()
+    + definirCartas()
+    + construirCartasNumericas()
+    + embaralharCartas()
+    + getResult() : Baralho
+}
+
+interface BaralhoBuilder
+
+BaralhoBuilder <|.. BaralhoUnoBuilder
+BaralhoBuilder <|.. BaralhoPokerBuilder
+
+class BaralhoUnoBuilder {
+    - BaralhoUno result
+    - String[] cores
+    - int[] valores
+    - String[] acoes
+    - String[] specialAcoes
+    - int[] valoresAcoes
+    + BaralhoUnoBuilder()
+    + reset()
+    + definirCartas()
+    + construirCartasNumericas()
+    + embaralharCartas()
+    + getResult() : BaralhoUno
+}
+
+class BaralhoPokerBuilder {
+    - BaralhoPoker result
+    + BaralhoPokerBuilder()
+    + reset()
+    + definirCartas()
+    + construirCartasNumericas()
+    + embaralharCartas()
+    + getResult() : BaralhoPoker
+}
+
+BaralhoUnoBuilder --> UnoCartaFactory : "usa"
+BaralhoPokerBuilder --> PokerCartaFactory : "usa"
+
+BaralhoUnoBuilder --> BaralhoUno
+BaralhoPokerBuilder --> BaralhoPoker
+
+class Diretor {
+    - BaralhoBuilder builder
+    + Diretor(BaralhoBuilder builder)
+    + changeBuilder(BaralhoBuilder builder)
+    + make(String type)
+    + getBuilder() : BaralhoBuilder
+}
+
+class Main {
+    + main(String[] args)
+}
+
+Diretor --> BaralhoBuilder
+Main --> Diretor
+
+@enduml
