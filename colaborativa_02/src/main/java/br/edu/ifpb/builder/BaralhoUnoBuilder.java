@@ -40,21 +40,19 @@ public class BaralhoUnoBuilder implements BaralhoBuilder {
 
     @Override
     public void construirCartasNumericas() {
-        // Criar as cartas numéricas com base nas cores e valores definidos
         for (String cor : cores) {
             for (Integer valor : valores) {
                 CartaUno carta = (CartaUno) cartaFactory.criarCarta(valor.toString(), new String[]{cor}, valor);
-                result.adicionarCarta(carta); // Adiciona a carta usando o método protegido
+                result.adicionarCarta(carta);
             }
             for (String acao : acoes) {
                 CartaUno carta = (CartaUno) cartaFactory.criarCarta(acao, new String[]{cor},  valoresAcoes[0]);
-                result.adicionarCarta(carta); // Adiciona a carta especial ao baralho
+                result.adicionarCarta(carta);
             }
         }
         for (String acao : specialAcoes) {
-            // Normalmente, essas cartas são sem cor (representadas por null)
             CartaUno carta = (CartaUno) cartaFactory.criarCarta(acao, cores, valoresAcoes[1]);
-            result.adicionarCarta(carta); // Adiciona a carta especial ao baralho
+            result.adicionarCarta(carta);
         }
 
 
@@ -63,7 +61,7 @@ public class BaralhoUnoBuilder implements BaralhoBuilder {
 
     @Override
     public void embaralharCartas() {
-        result.shuffle(); // Embaralha o baralho usando o método na classe Baralho
+        result.shuffle();
     }
 
     @Override

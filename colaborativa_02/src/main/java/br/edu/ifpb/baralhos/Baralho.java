@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// Baralho.java
 public abstract class Baralho {
     protected List<Carta> cartas;
 

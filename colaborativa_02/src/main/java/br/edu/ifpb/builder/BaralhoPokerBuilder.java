@@ -35,7 +35,7 @@ public class BaralhoPokerBuilder implements BaralhoBuilder {
         for (String naipe : naipes) {
             for (int i = 0; i < faces.length; i++) {
                 CartaPoker carta = (CartaPoker) cartaFactory.criarCarta(faces[i], new String[]{naipe}, valores[i]);
-                result.adicionarCarta(carta); // Adiciona a carta usando o novo método
+                result.adicionarCarta(carta);
             }
         }
     }

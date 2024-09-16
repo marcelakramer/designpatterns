@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 public class CartaUno extends Carta {
     public CartaUno(String tipo, String[] cor, int valor) {
-        this.face = tipo;  // "Número", "Pular", "Reverso", etc.
-        this.naipe = cor;  // "Vermelho", "Amarelo", "Verde", "Azul"
-        this.valor = valor; // Para cartas numéricas
+        this.face = tipo;
+        this.naipe = cor;
+        this.valor = valor;
     }
 
     @Override
