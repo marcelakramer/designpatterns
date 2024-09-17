@@ -14,10 +14,28 @@ public class Diretor {
     }
 
     public void make(String type) {
-        builder.reset();
-        builder.definirCartas();
-        builder.construirCartasNumericas();
-        builder.embaralharCartas();
+        if (type.equals("Tradicional")) {
+            builder.reset();
+            builder.definirFacesCartas();
+            builder.definirCoresCartas();
+            builder.definirNaipesCartas();
+            builder.definirCoresCartas();
+            builder.construirCartasNumericas();
+            builder.embaralharCartas();
+        } else if (type.equals("Uno")) {
+            builder.reset();
+            builder.definirFacesCartas();
+            builder.definirCoresCartas();
+            builder.definirValoresCartas();
+            builder.definirAcoesCartas();
+            builder.definirCartasCoringa();
+            builder.definirValoresEspeciais();
+            builder.construirCartasNumericas();
+            builder.construirCartasAcoes();
+            builder.construirCartasCoringa();
+            builder.embaralharCartas();
+        }
+
     }
 
     public BaralhoBuilder getBuilder() {
