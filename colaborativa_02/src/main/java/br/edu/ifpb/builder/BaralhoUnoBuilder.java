@@ -62,7 +62,7 @@ public class BaralhoUnoBuilder implements BaralhoBuilder {
     @Override
     public void construirCartasNumericas() {
         for (String cor : cores) {
-            for (int i = 1; i < faces.length; i++) {
+            for (int i = 0; i < faces.length; i++) {
                 CartaUno carta1 = (CartaUno) CartaFactory.criarCarta(TipoCarta.UNO, faces[i], null, new String[]{cor}, valores[i]);
                 CartaUno carta2 = (CartaUno) CartaFactory.criarCarta(TipoCarta.UNO, faces[i], null, new String[]{cor}, valores[i]);
                 result.adicionarCarta(carta1);
@@ -88,11 +88,11 @@ public class BaralhoUnoBuilder implements BaralhoBuilder {
 
         for (String coringa : coringas) {
             if (coringa.equals("Trocar as mãos")) {
-                CartaUno carta1 = (CartaUno) cartaFactory.criarCarta(TipoCarta.UNO, coringa, null, cores, valoresEspeciais[1]);
+                CartaUno carta1 = (CartaUno) CartaFactory.criarCarta(TipoCarta.UNO, coringa, null, cores, valoresEspeciais[1]);
                 result.adicionarCarta(carta1);
             } else {
                 for (int i = 0; i < 4; i++) {
-                    CartaUno carta1 = (CartaUno) cartaFactory.criarCarta(TipoCarta.UNO, coringa, null, cores, valoresEspeciais[1]);
+                    CartaUno carta1 = (CartaUno) CartaFactory.criarCarta(TipoCarta.UNO, coringa, null, cores, valoresEspeciais[1]);
                     result.adicionarCarta(carta1);
                 }
             }

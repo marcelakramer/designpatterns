@@ -33,4 +33,8 @@ public abstract class Baralho {
         }
         return sb.toString();
     }
+
+    public List<Carta> getCartas() {
+        return cartas;
+    }
 }

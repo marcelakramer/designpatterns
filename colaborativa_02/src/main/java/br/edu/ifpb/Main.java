@@ -11,8 +11,10 @@ public class Main {
         // Construindo o baralho de Poker
         diretor.make("Tradicional");
         Baralho baralhoPoker = diretor.getBuilder().getResult();
-        System.out.println("Baralho de Poker:");
+        System.out.println("Baralho Tradicional:");
         System.out.println(baralhoPoker);
+        System.out.println("Número de cartas do Baralho Tradicional:");
+        System.out.println(baralhoPoker.getCartas().size());
 
         // Construindo o baralho de Uno
         diretor.changeBuilder(new BaralhoUnoBuilder());
@@ -20,5 +22,7 @@ public class Main {
         Baralho baralhoUno = diretor.getBuilder().getResult();
         System.out.println("Baralho de Uno:");
         System.out.println(baralhoUno);
+        System.out.println("Número de cartas do Baralho de Uno:");
+        System.out.println(baralhoUno.getCartas().size());
     }
 }
