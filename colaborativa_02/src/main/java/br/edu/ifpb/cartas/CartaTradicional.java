@@ -1,10 +1,8 @@
 package br.edu.ifpb.cartas;
 
-import java.util.Arrays;
-
-public class CartaPoker extends Carta {
+public class CartaTradicional extends Carta {
     protected String naipe;
-    public CartaPoker(String face, String naipe, String[] cor) {
+    public CartaTradicional(String face, String naipe, String[] cor) {
         this.face = face;
         this.naipe = naipe;
         this.valor = 0;

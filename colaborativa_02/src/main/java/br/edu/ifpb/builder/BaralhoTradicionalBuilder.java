@@ -1,7 +1,7 @@
 package br.edu.ifpb.builder;
 
 import br.edu.ifpb.baralhos.BaralhoTradicional;
-import br.edu.ifpb.cartas.CartaPoker;
+import br.edu.ifpb.cartas.CartaTradicional;
 import br.edu.ifpb.factory.TipoCarta;
 import br.edu.ifpb.interfaces.BaralhoBuilder;
 import br.edu.ifpb.factory.CartaFactory;
@@ -68,10 +68,10 @@ public class BaralhoTradicionalBuilder implements BaralhoBuilder {
         for (String naipe : naipes) {
             for (String face : faces) {
                 if(naipe.equals("Copas") || naipe.equals("Ouros")) {
-                    CartaPoker carta = (CartaPoker) CartaFactory.criarCarta(TipoCarta.TRADICIONAL, face, naipe, new String[]{cores[0]}, 0);
+                    CartaTradicional carta = (CartaTradicional) CartaFactory.criarCarta(TipoCarta.TRADICIONAL, face, naipe, new String[]{cores[0]}, 0);
                     result.adicionarCarta(carta);
                 }else {
-                    CartaPoker carta = (CartaPoker) CartaFactory.criarCarta(TipoCarta.TRADICIONAL, face, naipe, new String[]{cores[1]}, 0);
+                    CartaTradicional carta = (CartaTradicional) CartaFactory.criarCarta(TipoCarta.TRADICIONAL, face, naipe, new String[]{cores[1]}, 0);
                     result.adicionarCarta(carta);
                 }
             }
