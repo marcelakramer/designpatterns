@@ -1,0 +1,59 @@
+@startuml
+class Elevador {
+    - estado: ElevadorEstado
+    - estrategia: EstrategiaFuncionamento
+    - filaDeRequisicoes: List<Integer>
+    - observadores: List<Observer>
+    + getInstancia(): Elevador
+    + adicionarRequisicao(andar: int)
+    + abrirPorta()
+    + fecharPorta()
+    + mover()
+    + setEstado(estado: ElevadorEstado)
+    + setEstrategia(estrategia: EstrategiaFuncionamento)
+    + addObserver(observer: Observer)
+    + moverParaAndar(andar: int)
+    + getAndarAtual(): int
+    + getFilaDeRequisicoes(): List<Integer>
+    + chegouAoDestino(): boolean
+    + atualizarAndar()
+}
+
+interface ElevadorEstado {
+    + acionarBotao(andar: int)
+    + abrirPorta()
+    + fecharPorta()
+    + mover()
+}
+
+ElevadorEstado <|-- ElevadorSubindo
+ElevadorEstado <|-- ElevadorDescendo
+ElevadorEstado <|-- ElevadorPortaAberta
+ElevadorEstado <|-- ElevadorPortaFechada
+
+interface EstrategiaFuncionamento {
+    + processarFila(elevador: Elevador)
+}
+
+EstrategiaFuncionamento <|-- EstrategiaSubindo
+EstrategiaFuncionamento <|-- EstrategiaDescendo
+
+interface Observer {
+    + atualizar(andarAtual: int, status: String, fila: List<Integer>)
+}
+
+Observer <|-- PainelElevador
+
+class CentralDeControleElevador {
+    + acionarBotaoAndar(andar: int)
+    + abrirPorta()
+    + fecharPorta()
+    + moverElevador()
+}
+
+Elevador --> Observer
+Observer <|-- PainelElevador
+Elevador --> CentralDeControleElevador
+CentralDeControleElevador --> PainelElevador
+CentralDeControleElevador --> Elevador
+@enduml
