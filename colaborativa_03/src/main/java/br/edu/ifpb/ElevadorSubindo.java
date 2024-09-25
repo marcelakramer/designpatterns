@@ -26,7 +26,7 @@ public class ElevadorSubindo implements ElevadorEstado {
     public void mover() {
         elevador.atualizarAndar();
         if (elevador.chegouAoDestino()) {
-            elevador.setEstado(new ElevadorPortaAberta(elevador));
+            elevador.setEstado(new ElevadorParado(elevador));
         }
     }
 }

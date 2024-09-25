@@ -26,3 +26,4 @@ public class CentralDeControleElevador {
         elevador.mover();
     }
 }
+

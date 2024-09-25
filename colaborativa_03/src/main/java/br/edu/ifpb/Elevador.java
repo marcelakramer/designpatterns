@@ -13,7 +13,7 @@ public class Elevador {
     private List<Observer> observadores = new ArrayList<>();
 
     private Elevador() {
-        this.estado = new ElevadorPortaAberta(this); // Estado inicial com a porta aberta
+        this.estado = new ElevadorParado(this); // Elevador começa parado com a porta aberta
         this.estrategia = new EstrategiaSubindo(); // Estratégia padrão
     }
 
@@ -43,8 +43,14 @@ public class Elevador {
     }
 
     public void mover() {
-        estado.mover();
-        notificarObservadores();
+        // Verificar se a fila de requisições está vazia
+        if (!filaDeRequisicoes.isEmpty()) {
+            // A estratégia de atendimento vai processar a fila
+            estrategia.processarFila(this);
+            notificarObservadores();
+        } else {
+            System.out.println("Não há requisições na fila.");
+        }
     }
 
     public void setEstado(ElevadorEstado novoEstado) {
@@ -67,9 +73,15 @@ public class Elevador {
     }
 
     public void moverParaAndar(int andar) {
+        System.out.println("Movendo para o andar: " + andar);
         andarAtual = andar;
-        System.out.println("Movendo para o andar: " + andarAtual);
+        filaDeRequisicoes.remove((Integer) andar);  // Remover o andar atual da fila
         notificarObservadores();
+        // Verificar se chegou ao destino final
+        if (filaDeRequisicoes.isEmpty()) {
+            setEstado(new ElevadorParado(this));  // Mudar o estado para parado
+            abrirPorta();  // Abrir a porta ao chegar no destino
+        }
     }
 
     public int getAndarAtual() {
@@ -89,7 +101,10 @@ public class Elevador {
     }
 
     public void atualizarAndar() {
-        // Atualizar andar atual logicamente aqui
+        // Atualizar logicamente o andar atual (simulação)
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
-
