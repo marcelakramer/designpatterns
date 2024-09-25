@@ -1,7 +1,7 @@
 @startuml
 class Elevador {
     - estado: ElevadorEstado
-    - estrategia: EstrategiaFuncionamento
+    - estrategia: EstrategiaAtendimento
     - filaDeRequisicoes: List<Integer>
     - observadores: List<Observer>
     + getInstancia(): Elevador
@@ -10,13 +10,14 @@ class Elevador {
     + fecharPorta()
     + mover()
     + setEstado(estado: ElevadorEstado)
-    + setEstrategia(estrategia: EstrategiaFuncionamento)
+    + setEstrategia(estrategia: EstrategiaAtendimento)
     + addObserver(observer: Observer)
     + moverParaAndar(andar: int)
     + getAndarAtual(): int
     + getFilaDeRequisicoes(): List<Integer>
     + chegouAoDestino(): boolean
     + atualizarAndar()
+    + setStatus(status: String)
 }
 
 interface ElevadorEstado {
@@ -28,21 +29,37 @@ interface ElevadorEstado {
 
 ElevadorEstado <|-- ElevadorSubindo
 ElevadorEstado <|-- ElevadorDescendo
-ElevadorEstado <|-- ElevadorPortaAberta
-ElevadorEstado <|-- ElevadorPortaFechada
+ElevadorEstado <|-- ElevadorParado
 
-interface EstrategiaFuncionamento {
+interface EstrategiaAtendimento {
     + processarFila(elevador: Elevador)
 }
 
-EstrategiaFuncionamento <|-- EstrategiaSubindo
-EstrategiaFuncionamento <|-- EstrategiaDescendo
+EstrategiaAtendimento <|-- EstrategiaSubindo
+EstrategiaAtendimento <|-- EstrategiaDescendo
 
 interface Observer {
     + atualizar(andarAtual: int, status: String, fila: List<Integer>)
 }
 
 Observer <|-- PainelElevador
+
+class BotaoChamadaExterna {
+    - andar: int
+    - controle: CentralDeControleElevador
+    + chamarElevador()
+}
+
+class BotaoInterno {
+    - andar: int
+    - controle: CentralDeControleElevador
+    + selecionarAndar()
+}
+
+class PainelInterno {
+    - botoesInternos: Map<Integer, BotaoInterno>
+    + pressionarBotao(andar: int)
+}
 
 class CentralDeControleElevador {
     + acionarBotaoAndar(andar: int)
@@ -52,8 +69,14 @@ class CentralDeControleElevador {
 }
 
 Elevador --> Observer
+Elevador --> ElevadorEstado
+Elevador --> EstrategiaAtendimento
 Observer <|-- PainelElevador
 Elevador --> CentralDeControleElevador
 CentralDeControleElevador --> PainelElevador
 CentralDeControleElevador --> Elevador
+CentralDeControleElevador --> BotaoChamadaExterna
+CentralDeControleElevador --> BotaoInterno
+PainelInterno --> BotaoInterno
+PainelInterno --> Elevador
 @enduml
