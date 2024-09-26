@@ -1,6 +1,7 @@
 package elevator;
 
 import observer.ElevatorDisplay;
+import observer.Observer;
 
 public class ElevatorControlCenter {
     private final Elevator elevator;
@@ -25,7 +26,7 @@ public class ElevatorControlCenter {
         elevator.closeDoor();
     }
 
-    public void addDisplay(ElevatorDisplay elevatorDisplay) {
-        this.elevator.addObserver(elevatorDisplay)
+    public void addObserver(Observer observer) {
+        this.elevator.addObserver(observer);
     }
 }

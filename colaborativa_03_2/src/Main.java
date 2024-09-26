@@ -8,9 +8,9 @@ public class Main {
     public static void main(String[] args) {
         int totalOfFloors = 10;
         Elevator elevator = Elevator.getInstance(totalOfFloors);
-        ElevatorDisplay display =  new ElevatorDisplay();
+        ElevatorDisplay elevatorDisplay =  new ElevatorDisplay();
         ElevatorControlCenter controlCenter = new ElevatorControlCenter(elevator);
-        controlCenter.addDisplay(display);
+        controlCenter.addObserver(elevatorDisplay);
 
         ExternalCallButton buttonFloor3 = new ExternalCallButton(3, controlCenter);
         ExternalCallButton buttonFloor5 = new ExternalCallButton(5, controlCenter);
