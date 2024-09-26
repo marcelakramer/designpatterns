@@ -7,8 +7,6 @@ public class ElevatorControlCenter {
 
     public ElevatorControlCenter(Elevator elevator) {
         this.elevator = elevator;
-        ElevatorDisplay panel = new ElevatorDisplay();
-        elevator.addObserver(panel);
     }
 
     public void selectFloor(int floor) {
@@ -25,5 +23,9 @@ public class ElevatorControlCenter {
 
     public void closeDoor() {
         elevator.closeDoor();
+    }
+
+    public void addDisplay(ElevatorDisplay elevatorDisplay) {
+        this.elevator.addObserver(elevatorDisplay)
     }
 }
