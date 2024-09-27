@@ -32,40 +32,44 @@ package state {
 }
 
 package mediator {
-    abstract class InternalButton {
-        - mediator: InternalPanel
+
+    interface Mediator {
+        + notify(Component sender, String event)
+    }
+
+    class InternalPanel implements Mediator {
+        - floorButtons: Map<Integer, FloorButtonn>
+        - openDoorButton: OpenDoorButton
+        - closeDoorButton: CloseDoorButton
+        - controller: ElevatorControlCenter
+        + InternalPanel(controller: ElevatorControlCenter, totalFloors: int)
+        + notify(Component sender, String event)
+        + getFloorButton(floor: int): FloorButton
+        + getOpenDoorButton(): OpenDoorButton
+        + getCloseDoorButton(): CloseDoorButton
+    }
+
+    abstract class Component {
+        + Component(Mediator mediator)
+        + notifyMediator(String event)
+    }
+
+    abstract class InternalButton extends Component {
         + press()
     }
 
     class OpenDoorButton extends InternalButton {
-        - mediator: InternalPanel
         + press()
     }
 
     class CloseDoorButton extends InternalButton {
-        - mediator: InternalPanel
         + press()
     }
 
     class FloorButton extends InternalButton {
         - floor: int
-        - mediator: InternalPanel
         + press()
         + getFloor(): int
-    }
-
-    class InternalPanel {
-        - floorButtons: Map<Integer, InternalButton>
-        - openDoorButton: InternalButton
-        - closeDoorButton: InternalButton
-        - controller: ElevatorControlCenter
-        + InternalPanel(controller: ElevatorControlCenter, totalFloors: int)
-        + pressFloorButton(floor: int)
-        + pressOpenDoorButton()
-        + pressCloseDoorButton()
-        + getFloorButton(floor: int): InternalButton
-        + getOpenDoorButton(): InternalButton
-        + getCloseDoorButton(): InternalButton
     }
 }
 
@@ -117,8 +121,15 @@ ExternalCallButton --> ElevatorControlCenter
 ElevatorControlCenter --> Elevator
 ElevatorControlCenter ..> Observer
 InternalPanel --> ElevatorControlCenter
-InternalPanel --> InternalButton
+InternalPanel --> OpenDoorButton
+InternalPanel --> CloseDoorButton
+InternalPanel --> FloorButton
 Elevator --> ElevatorState
+MovingUpState --> Elevator
+MovingDownState --> Elevator
+StoppedState --> Elevator
 Elevator --> Observer
+Mediator ..> Component
+Component --> Mediator
 
 @enduml

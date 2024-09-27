@@ -10,8 +10,8 @@ public class FloorButton extends InternalButton {
 
     @Override
     public void press() {
-        System.out.println("Button pressed for floor " + floor);
-        mediator.pressFloorButton(floor);
+        System.out.println("Button pressed to go to floor " + floor);
+        notifyMediator("press");
     }
 
     public int getFloor() {

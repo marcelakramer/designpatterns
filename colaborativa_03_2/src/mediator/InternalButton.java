@@ -1,10 +1,8 @@
 package mediator;
 
-public abstract class InternalButton {
-    protected final InternalPanel mediator;
-
+public abstract class InternalButton extends Component {
     public InternalButton(InternalPanel mediator) {
-        this.mediator = mediator;
+        super(mediator);
     }
 
     public abstract void press();
