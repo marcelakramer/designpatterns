@@ -2,17 +2,17 @@ package state;
 
 import elevator.Elevator;
 
-public class MovingUpState implements ElevatorState {
+public class MovingDownState implements ElevatorState {
     private final Elevator elevator;
 
-    public MovingUpState(Elevator elevator) {
+    public MovingDownState(Elevator elevator) {
         this.elevator = elevator;
         elevator.closeDoor();
     }
 
     @Override
     public void move() {
-        for (int i = elevator.getCurrentFloor(); i <= elevator.getRequestQueue().get(0); i++) {
+        for (int i = elevator.getCurrentFloor(); i >= elevator.getRequestQueue().getFirst(); i--) {
 
             try {
                 Thread.sleep(1000);
@@ -20,21 +20,16 @@ public class MovingUpState implements ElevatorState {
                 e.printStackTrace();
             }
 
-            int currentFloor = elevator.getCurrentFloor() + 1;
+            int currentFloor = elevator.getCurrentFloor() - 1;
             elevator.setCurrentFloor(currentFloor);
 
-            if (elevator.getRequestQueue().getFirst() == currentFloor) {
+            if (elevator.getRequestQueue().contains(currentFloor) && !elevator.getOutUpRequestQueue().contains(currentFloor)) {
                 elevator.removeRequest(currentFloor);
                 elevator.setState(new StoppedState(elevator));
-
-//                elevator.openDoor();
-//                elevator.closeDoor();
-
+                elevator.move();
             }
 
             if (elevator.hasArrivedAtDestination()) {
-
-//                elevator.openDoor();
                 elevator.setState(new StoppedState(elevator));
                 break;
             }
@@ -43,6 +38,6 @@ public class MovingUpState implements ElevatorState {
 
     @Override
     public String toString() {
-        return "Moving up";
+        return "Moving down";
     }
 }

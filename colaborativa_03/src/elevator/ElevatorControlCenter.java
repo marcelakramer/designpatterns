@@ -1,6 +1,5 @@
 package elevator;
 
-import observer.ElevatorDisplay;
 import observer.Observer;
 
 public class ElevatorControlCenter {
@@ -8,6 +7,10 @@ public class ElevatorControlCenter {
 
     public ElevatorControlCenter(Elevator elevator) {
         this.elevator = elevator;
+    }
+
+    public void selectFloor(int floor, boolean goingUp) {
+        elevator.selectFloor(floor, goingUp);
     }
 
     public void selectFloor(int floor) {

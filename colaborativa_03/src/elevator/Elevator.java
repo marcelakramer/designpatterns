@@ -14,6 +14,8 @@ public class Elevator {
     private int currentFloor = 0;
     private boolean doorOpen;
     private final List<Integer> requestQueue = new ArrayList<>();
+    private final List<Integer> outUpRequestQueue = new ArrayList<>();
+    private final List<Integer> outDownRequestQueue = new ArrayList<>();
     private final List<Observer> observers = new ArrayList<>();
 
     private Elevator(int totalOfFloors) {
@@ -31,21 +33,16 @@ public class Elevator {
 
     public void selectFloor(int floor, boolean goingUp) {
         if (floor >= 0 && floor <= totalOfFloors && !requestQueue.contains(floor) && floor != currentFloor) {
-            addRequest(floor, goingUp);
+            addRequest(floor);
+            addOutRequest(floor, goingUp);
             notifyObservers();
-//            move();
         }
     }
 
     public void selectFloor(int floor) {
         if (floor >= 0 && floor <= totalOfFloors && !requestQueue.contains(floor) && floor != currentFloor) {
-            if (floor < requestQueue.get(0)) {
-                addRequest(floor, true);
-            } else {
-                addRequest(floor, false);
-            }
+            addRequest(floor);
             notifyObservers();
-//            move();
         }
     }
 
@@ -65,19 +62,29 @@ public class Elevator {
 
     public void setState(ElevatorState state) {
         this.state = state;
+        System.out.println("agora eu sou: " + state.toString());
     }
 
-    private void addRequest(int floor, boolean goingUp) {
+    private void addRequest(int floor) {
+        requestQueue.add(floor);
+    }
+
+    private void addOutRequest(int floor, boolean goingUp) {
         if (goingUp) {
-            requestQueue.add(floor);
+            outUpRequestQueue.add(floor);
         } else {
-            // Here, add logic to manage the request queue for down requests
-            requestQueue.add(0, floor); // Adding at the start to prioritize down requests
+            outDownRequestQueue.add(floor);
         }
     }
 
     public void removeRequest(int floor) {
         requestQueue.remove(Integer.valueOf(floor));
+        if (outUpRequestQueue.contains(floor)) {
+            outUpRequestQueue.remove(Integer.valueOf(floor));
+        }
+        if (outDownRequestQueue.contains(floor)) {
+            outDownRequestQueue.remove(Integer.valueOf(floor));
+        }
     }
 
     public int getCurrentFloor() {
@@ -95,6 +102,14 @@ public class Elevator {
 
     public List<Integer> getRequestQueue() {
         return new ArrayList<>(requestQueue);
+    }
+
+    public List<Integer> getOutUpRequestQueue() {
+        return outUpRequestQueue;
+    }
+
+    public List<Integer> getOutDownRequestQueue() {
+        return outDownRequestQueue;
     }
 
     public boolean hasArrivedAtDestination() {

@@ -12,7 +12,7 @@ public class MovingUpState implements ElevatorState {
 
     @Override
     public void move() {
-        for (int i = elevator.getCurrentFloor(); i <= elevator.getTotalOfFloors(); i++) {
+        for (int i = elevator.getCurrentFloor(); i <= elevator.getRequestQueue().getFirst(); i++) {
 
             try {
                 Thread.sleep(1000);
@@ -23,10 +23,10 @@ public class MovingUpState implements ElevatorState {
             int currentFloor = elevator.getCurrentFloor() + 1;
             elevator.setCurrentFloor(currentFloor);
 
-            if (elevator.getRequestQueue().contains(currentFloor)) {
-                elevator.openDoor();
-                elevator.closeDoor();
+            if (elevator.getRequestQueue().contains(currentFloor) && !elevator.getOutDownRequestQueue().contains(currentFloor)) {
                 elevator.removeRequest(currentFloor);
+                elevator.setState(new StoppedState(elevator));
+                elevator.move();
             }
 
             if (elevator.hasArrivedAtDestination()) {

@@ -11,6 +11,6 @@ public class CallUpButton {
 
     public void callElevator() {
         System.out.println("Calling the elevator up to floor: " + floor);
-        controller.selectFloor(floor, true); // true indicates an up request
+        controller.selectFloor(floor, true);
     }
 }

@@ -11,6 +11,6 @@ public class CallDownButton {
 
     public void callElevator() {
         System.out.println("Calling the elevator down to floor: " + floor);
-        controller.selectFloor(floor, false); // false indicates a down request
+        controller.selectFloor(floor, false);
     }
 }
