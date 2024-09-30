@@ -62,7 +62,7 @@ public class Elevator {
 
     public void setState(ElevatorState state) {
         this.state = state;
-        System.out.println("agora eu sou: " + state.toString());
+        notifyObservers();
     }
 
     private void addRequest(int floor) {

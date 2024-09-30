@@ -12,16 +12,12 @@ public class StoppedState implements ElevatorState {
 
     @Override
     public void move() {
-        while (!elevator.hasArrivedAtDestination()) {
-            int currentFloor = elevator.getCurrentFloor();
+        int currentFloor = elevator.getCurrentFloor();
 
-            if (!elevator.getRequestQueue().isEmpty()) {
-                int targetFloor = elevator.getRequestQueue().getFirst();
-                elevator.setState(currentFloor < targetFloor ? new MovingUpState(elevator) : new MovingDownState(elevator));
-                elevator.move();
-            } else {
-                return;
-            }
+        if (!elevator.getRequestQueue().isEmpty()) {
+            int targetFloor = elevator.getRequestQueue().getFirst();
+            elevator.setState(currentFloor < targetFloor ? new MovingUpState(elevator) : new MovingDownState(elevator));
+            elevator.move();
         }
     }
 

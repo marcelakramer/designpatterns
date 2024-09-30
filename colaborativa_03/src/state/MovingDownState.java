@@ -27,11 +27,12 @@ public class MovingDownState implements ElevatorState {
                 elevator.removeRequest(currentFloor);
                 elevator.setState(new StoppedState(elevator));
                 elevator.move();
+                return;
             }
 
             if (elevator.hasArrivedAtDestination()) {
                 elevator.setState(new StoppedState(elevator));
-                break;
+                return;
             }
         }
     }
