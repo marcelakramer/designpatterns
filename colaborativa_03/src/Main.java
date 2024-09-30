@@ -12,11 +12,6 @@ public class Main {
 
         InternalPanel internalPanel = new InternalPanel(controlCenter, totalOfFloors);
 
-        for (int i = 0; i < totalOfFloors; i++) {
-            new CallUpButton(i, controlCenter);
-            new CallDownButton(i, controlCenter);
-        }
-
         CallUpButton buttonFloor3 = new CallUpButton(3, controlCenter);
         buttonFloor3.callElevator();
         internalPanel.getFloorButton(5).press();
