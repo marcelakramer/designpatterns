@@ -1,0 +1,135 @@
+@startuml
+
+package observer {
+    interface Observer {
+        + update(currentFloor: int, status: String, queue: List<Integer>)
+    }
+
+    class ElevatorDisplay implements Observer {
+        + update(currentFloor: int, status: String, queue: List<Integer>)
+    }
+}
+
+package state {
+    interface ElevatorState {
+        + move()
+    }
+
+    class MovingUpState implements ElevatorState {
+        - elevator: Elevator
+        + move()
+    }
+
+    class MovingDownState implements ElevatorState {
+        - elevator: Elevator
+        + move()
+    }
+
+    class StoppedState implements ElevatorState {
+        - elevator: Elevator
+        + move()
+    }
+}
+
+package mediator {
+
+    interface Mediator {
+        + notify(Component sender, String event)
+    }
+
+    class InternalPanel implements Mediator {
+        - floorButtons: Map<Integer, FloorButtonn>
+        - openDoorButton: OpenDoorButton
+        - closeDoorButton: CloseDoorButton
+        - controller: ElevatorControlCenter
+        + InternalPanel(controller: ElevatorControlCenter, totalFloors: int)
+        + notify(Component sender, String event)
+        + getFloorButton(floor: int): FloorButton
+        + getOpenDoorButton(): OpenDoorButton
+        + getCloseDoorButton(): CloseDoorButton
+    }
+
+    abstract class Component {
+        + Component(Mediator mediator)
+        + notifyMediator(String event)
+    }
+
+    abstract class InternalButton extends Component {
+        + press()
+    }
+
+    class OpenDoorButton extends InternalButton {
+        + press()
+    }
+
+    class CloseDoorButton extends InternalButton {
+        + press()
+    }
+
+    class FloorButton extends InternalButton {
+        - floor: int
+        + press()
+        + getFloor(): int
+    }
+}
+
+package elevator {
+    class Elevator {
+        - currentFloor: int
+        - totalOfFloors: int
+        - requestQueue: List<Integer>
+        - state: ElevatorState
+        - doorOpen: boolean
+        - observers: List<Observer>
+        + Elevator(totalOfFloors: int)
+        + static getInstance(totalOfFloors: int): Elevator
+        + selectFloor(floor: int)
+        + openDoor()
+        + closeDoor()
+        + move()
+        + setState(state: ElevatorState)
+        + addRequest(floor: int)
+        + removeRequest(floor: int)
+        + getCurrentFloor(): int
+        + setCurrentFloor(currentFloor: int)
+        + getTotalOfFloors(): int
+        + getRequestQueue(): List<Integer>
+        + hasArrivedAtDestination(): boolean
+        + addObserver(observer: Observer)
+        + notifyObservers()
+    }
+
+    class ExternalCallButton {
+        - floor: int
+        - controller: ElevatorControlCenter
+        + ExternalCallButton(floor: int, controller: ElevatorControlCenter)
+        + callElevator()
+    }
+
+    class ElevatorControlCenter {
+        - elevator: Elevator
+        + ElevatorControlCenter(elevator: Elevator)
+        + selectFloor(floor: int)
+        + move()
+        + openDoor()
+        + closeDoor()
+        + addObserver(observer: Observer)
+    }
+}
+
+ExternalCallButton --> ElevatorControlCenter
+ElevatorControlCenter --> Elevator
+ElevatorControlCenter ..> Observer
+InternalPanel --> ElevatorControlCenter
+InternalPanel --> OpenDoorButton
+InternalPanel --> CloseDoorButton
+InternalPanel --> FloorButton
+Elevator --> ElevatorState
+MovingUpState --> Elevator
+MovingDownState --> Elevator
+StoppedState --> Elevator
+Elevator --> Observer
+Mediator ..> Component
+Component --> Mediator
+
+@enduml
