@@ -12,7 +12,7 @@ public class MovingDownState implements ElevatorState {
 
     @Override
     public void move() {
-        for (int i = elevator.getCurrentFloor(); i >= elevator.getRequestQueue().getFirst(); i--) {
+        for (int i = elevator.getCurrentFloor(); i >= elevator.getRequestQueue().get(0); i--) {
 
             try {
                 Thread.sleep(1000);
